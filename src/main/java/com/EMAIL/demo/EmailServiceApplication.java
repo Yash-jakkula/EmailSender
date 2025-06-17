@@ -10,31 +10,18 @@ import org.springframework.context.event.EventListener;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import java.io.UnsupportedEncodingException;
 
 @SpringBootApplication
 @EnableAsync
+@EnableScheduling
 public class EmailServiceApplication {
-//	@Autowired
-// private EmailSender emailSender;
 
 	public static void main(String[] args) {
 
 		SpringApplication.run(EmailServiceApplication.class, args);
 
     }
-//@EventListener(ApplicationReadyEvent.class)
-//	public void sendMail(){
-//		JavaMailSender mailSender = new JavaMailSenderImpl();
-//		String receipientEmail = "21eg105h21@anurag.edu.in";
-//		String subject = "Hello from Yashwanth testing";
-//		String content = "<p>Hello,</p><p>This is a test mail from yashwanth with spring and java</P>";
-//		try {
-//			emailSender.sendEmail(receipientEmail,subject,content);
-//		} catch (UnsupportedEncodingException e) {
-//			throw new RuntimeException(e);
-//		}
-//	}
-
 }

@@ -1,6 +1,6 @@
 package com.EMAIL.demo.Controller;
 
-import com.EMAIL.demo.EmailSender;
+import com.EMAIL.demo.services.EmailSender;
 import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
