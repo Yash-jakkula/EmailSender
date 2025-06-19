@@ -57,7 +57,7 @@ public class EmailScheduler {
             struct.put("email",map.get("email").toString());
             struct.put("subject","Test from background service");
             struct.put("Content","<h1>Hello there click below link for hackverse</h1><br /><a href='https://hackverse.knowvationlearnings.in'>Hackverse</a>");
-            log.info("Content set {}",struct);
+            log.info("Content set {}",map.get("email"));
 
             emails.add(struct);
 
@@ -66,7 +66,7 @@ public class EmailScheduler {
         log.info("sending emails {}",emails);
 
         emailSender.emailSendingGroup(emails);
-        log.info("emails sent {}","true");
+        log.info("emails sent {}","process finished");
 
     }
 }
