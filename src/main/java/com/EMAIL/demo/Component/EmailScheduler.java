@@ -35,12 +35,12 @@ public class EmailScheduler {
         List<Response> responseList = background.findAll();
 
         Optional<Response> response = background.findById(UUID.fromString("c6c89261-34f8-4302-aef7-f025b6f16b76"));
-        log.info("responses {}",response);
-        log.info("responses list {}",responseList.toString());
-        List<Map<String,String>> emails = new ArrayList<>();
+        log.info("responses {}", response);
+        log.info("responses list {}", responseList.toString());
+        List<Map<String, String>> emails = new ArrayList<>();
         for (Response value : responseList) {
 
-            log.info("responses {}", value.getCreatedAt().getHour() + " "+ value.getCreatedAt().getSecond());
+            log.info("responses {}", value.getCreatedAt().getHour() + " " + value.getCreatedAt().getSecond());
             OffsetDateTime storedDate = value.getCreatedAt();
 
             OffsetDateTime now = OffsetDateTime.now();
@@ -48,25 +48,27 @@ public class EmailScheduler {
             Duration duration = Duration.between(storedDate, now);
 
             long milliseconds = duration.toMillis();
-            log.info("milliseconds {}",milliseconds);
+            log.info("milliseconds {}", milliseconds);
 
-            String email = value.getResponseData();
-            ObjectMapper objectMapper = new ObjectMapper();
-            Map<String, Object> map = objectMapper.readValue(email, Map.class);
-            Map<String,String> struct = new HashMap<>();
-            struct.put("email",map.get("email").toString());
-            struct.put("subject","Test from background service");
-            struct.put("Content","<h1>Hello there click below link for hackverse</h1><br /><a href='https://hackverse.knowvationlearnings.in'>Hackverse</a>");
-            log.info("Content set {}",map.get("email"));
+            if (milliseconds < 5000 && value.getResponseStatus().equals("SUCCESS")) {
+                String email = value.getResponseData();
+                ObjectMapper objectMapper = new ObjectMapper();
+                Map<String, Object> map = objectMapper.readValue(email, Map.class);
+                Map<String, String> struct = new HashMap<>();
+                struct.put("email", map.get("email").toString());
+                struct.put("subject", "Test from background service");
+                struct.put("Content", "<h1>Hello there click below link for hackverse</h1><br /><a href='https://hackverse.knowvationlearnings.in'>Hackverse</a>");
+                log.info("Content set {}", map.get("email"));
 
-            emails.add(struct);
+                emails.add(struct);
 
 
+                log.info("sending emails {}", emails);
+                emailSender.emailSendingGroup(emails);
+                log.info("emails sent {}", "process finished");
+            } else {
+                log.info("Email already sent");
+            }
         }
-        log.info("sending emails {}",emails);
-
-        emailSender.emailSendingGroup(emails);
-        log.info("emails sent {}","process finished");
-
     }
 }
